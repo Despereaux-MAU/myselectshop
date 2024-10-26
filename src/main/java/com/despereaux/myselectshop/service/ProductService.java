@@ -4,6 +4,7 @@ import com.despereaux.myselectshop.dto.ProductMypriceRequestDto;
 import com.despereaux.myselectshop.dto.ProductRequestDto;
 import com.despereaux.myselectshop.dto.ProductResponseDto;
 import com.despereaux.myselectshop.entity.Product;
+import com.despereaux.myselectshop.entity.User;
 import com.despereaux.myselectshop.naver.dto.ItemDto;
 import com.despereaux.myselectshop.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +22,8 @@ public class ProductService {
 
     public static final int MIN_MY_PRICE = 100;
 
-    public ProductResponseDto createProduct(ProductRequestDto requestDto) {
-        Product product = productRepository.save(new Product(requestDto));
+    public ProductResponseDto createProduct(ProductRequestDto requestDto, User user) {
+        Product product = productRepository.save(new Product(requestDto, user));
         return new ProductResponseDto(product);
     }
 
@@ -42,8 +43,8 @@ public class ProductService {
         return new ProductResponseDto(product);
     }
 
-    public List<ProductResponseDto> getProducts() {
-        List<Product> productList = productRepository.findAll(); // var(변수명 지정)
+    public List<ProductResponseDto> getProducts(User user) {
+        List<Product> productList = productRepository.findAllByUser(user); // var(변수명 지정)
         List<ProductResponseDto> responseDtoList = new ArrayList<>();
 
         for (Product product : productList) { // iter(향상된 for문 만들어줌)
@@ -59,5 +60,16 @@ public class ProductService {
                 new NullPointerException("해당 상품은 존재하지 않습니다.")
         );
         product.updateByItemDto(itemDto);
+    }
+
+    public List<ProductResponseDto> getAllProducts() {
+        List<Product> productList = productRepository.findAll(); // var(변수명 지정)
+        List<ProductResponseDto> responseDtoList = new ArrayList<>();
+
+        for (Product product : productList) { // iter(향상된 for문 만들어줌)
+            responseDtoList.add(new ProductResponseDto(product));
+        }
+
+        return responseDtoList;
     }
 }
