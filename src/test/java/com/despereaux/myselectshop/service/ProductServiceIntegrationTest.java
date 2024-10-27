@@ -87,7 +87,7 @@ class ProductServiceIntegrationTest {
         // 1. 전체 상품에서 테스트에 의해 생성된 상품 찾아오기 (상품의 id 로 찾음)
         Long createdProductId = this.createdProduct.getId();
         ProductResponseDto foundProduct = productList.stream()
-                .filter(product -> product.getId() == createdProductId) // .getId().equals(createdProductId) -> equals 메서드 사용 불가
+                .filter(product -> product.getId().equals(createdProductId))
                 .findFirst()
                 .orElse(null);
 
