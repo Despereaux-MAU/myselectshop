@@ -6,7 +6,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
-@EnableJpaAuditing
+// JpaConfig에서 설정해서 필요 없음
+//@EnableJpaAuditing
 @SpringBootApplication
 public class MyselectshopApplication {
 
